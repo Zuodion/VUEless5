@@ -1,28 +1,36 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="app">
+        <h1>Filters & Mixins</h1>
+        <p>{{ text | toUpperCase | to-lowercase }}</p>
+        <hr>
+        <button @click="fruits.push('Berries')">Add New Item</button>
+        <input v-model="filterText">
+        <ul>
+            <li v-for="(fruit, index) in filteredFruits" :key="index">{{ fruit }}</li>
+        </ul>
+        <hr>
+        <app-list/>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import AppList from "./components/AppList.vue";
+import { fruitMixin } from "./mixins/fruitMixin.js";
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
+    mixins: [fruitMixin],
+    name: "app",
+    data() {
+        return {
+            text: "Hello there!"
+        };
+    },
+    filters: {
+        toUpperCase(value) {
+            return value.toUpperCase();
+        }
+    },
+    components: {
+        AppList
+    }
+};
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
